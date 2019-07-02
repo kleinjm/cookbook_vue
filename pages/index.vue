@@ -71,7 +71,7 @@ import VuetifyLogo from '~/components/VuetifyLogo.vue'
 export default {
   components: {
     Logo,
-    VuetifyLogo
-  }
+    VuetifyLogo,
+  },
 }
 </script>
