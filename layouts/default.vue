@@ -7,6 +7,7 @@
       fixed
       app
     >
+      <v-alert type="error" :value="error">{{ error }}</v-alert>
       <v-list>
         <v-list-tile
           v-for="(item, i) in items"
@@ -20,6 +21,16 @@
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title v-text="item.title" />
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile v-if="$auth.$state.loggedIn" @click="logout">
+          <v-list-tile-content>
+            <v-list-tile-title>Sign out</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile v-else to="/login" router>
+          <v-list-tile-content>
+            <v-list-tile-title>Sign in</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -86,8 +97,16 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js',
+      title: 'Cookbook',
+      error: null,
     }
+  },
+  methods: {
+    logout() {
+      this.$auth.logout().catch((e) => {
+        this.error = e + ''
+      })
+    },
   },
 }
 </script>
