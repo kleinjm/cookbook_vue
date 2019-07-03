@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import { port, host } from './.env.development'
 
 export default {
   mode: 'universal',
@@ -52,7 +53,7 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: { host, port },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -76,5 +77,23 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {},
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/api/users/sign_in',
+            method: 'post',
+            propertyName: 'jti',
+          },
+          logout: { url: '/api/users/sign_out', method: 'delete' },
+          user: { url: '/api/users/current', propertyName: 'user' },
+        },
+      },
+    },
+  },
+  router: {
+    middleware: ['auth'],
   },
 }
