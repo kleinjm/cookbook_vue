@@ -85,7 +85,7 @@ export default {
           login: {
             url: '/api/users/sign_in',
             method: 'post',
-            propertyName: 'jti',
+            propertyName: 'token',
           },
           logout: { url: '/api/users/sign_out', method: 'delete' },
           user: { url: '/api/users/current', propertyName: 'user' },
