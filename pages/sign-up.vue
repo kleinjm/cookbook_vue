@@ -43,7 +43,17 @@
             />
           </v-form>
           <v-card-actions>
-            <v-btn @click="signUp">Sign Up</v-btn>
+            <v-btn
+              color="info"
+              :loading="loading"
+              :disabled="loading"
+              @click="submitForm"
+              >Sign Up</v-btn
+            >
+          </v-card-actions>
+          <p class="font-weight-light mt-4">Already have an account?</p>
+          <v-card-actions>
+            <v-btn to="/login" router>Log In</v-btn>
           </v-card-actions>
         </v-card-text>
       </v-card>
@@ -53,70 +63,53 @@
 
 <script>
 import { required, email, minLength } from 'vuelidate/lib/validators'
-import { validationMixin } from 'vuelidate'
-import { handleErrors } from '~/utils/vuelidate'
+import LoginMixin from '~/mixins/LoginMixin'
+import { fieldErrors } from '~/utils/vuelidate'
 
 export default {
-  mixins: [validationMixin],
+  mixins: [LoginMixin],
   auth: 'guest',
   data() {
     return {
-      email: '',
-      error: null,
       firstName: '',
       lastName: '',
-      password: '',
-      passwordVisible: false,
     }
   },
   validations: {
     email: { required, email },
+    password: { required, minLength: minLength(8) },
     firstName: { required },
     lastName: { required },
-    password: { required, minLength: minLength(8) },
   },
   computed: {
     firstNameErrors() {
-      return handleErrors('firstName', this)
+      return fieldErrors('firstName', this)
     },
     lastNameErrors() {
-      return handleErrors('lastName', this)
-    },
-    emailErrors() {
-      return handleErrors('email', this)
-    },
-    passwordErrors() {
-      return handleErrors('password', this)
+      return fieldErrors('lastName', this)
     },
   },
   methods: {
-    async signUp() {
-      this.$v.$touch()
-      if (this.$v.$invalid) return
+    async formAction() {
+      await this.$axios.post('/users', {
+        user: {
+          first_name: this.firstName,
+          last_name: this.lastName,
+          email: this.email,
+          password: this.password,
+        },
+      })
 
-      try {
-        await this.$axios.post('/users', {
+      await this.$auth.login({
+        data: {
           user: {
-            first_name: this.firstName,
-            last_name: this.lastName,
             email: this.email,
             password: this.password,
           },
-        })
+        },
+      })
 
-        await this.$auth.login({
-          data: {
-            user: {
-              email: this.email,
-              password: this.password,
-            },
-          },
-        })
-
-        this.$router.push('/')
-      } catch (e) {
-        this.error = e.response.data.message
-      }
+      this.$router.push('/')
     },
   },
 }

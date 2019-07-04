@@ -80,6 +80,7 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {
+      config.resolve.alias['~mixins'] = path.join(projectSrc, 'mixins')
       config.resolve.alias['~utils'] = path.join(projectSrc, 'utils')
     },
   },

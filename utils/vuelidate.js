@@ -1,4 +1,4 @@
-export function handleErrors(fieldName, vueObj) {
+export function fieldErrors(fieldName, vueObj) {
   const errors = []
   if (!vueObj.$v[fieldName].$dirty) return errors
 

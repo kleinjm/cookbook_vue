@@ -25,6 +25,10 @@
         </v-list-tile>
         <v-list-tile v-if="$auth.$state.loggedIn" @click="logout">
           <v-list-tile-content>
+            <v-list-tile-title
+              >Logged in as
+              {{ $auth.$state.user.first_name }}</v-list-tile-title
+            >
             <v-list-tile-title>Sign out</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
@@ -110,9 +114,14 @@ export default {
   },
   methods: {
     logout() {
-      this.$auth.logout().catch((e) => {
-        this.error = e + ''
-      })
+      this.$auth
+        .logout()
+        .then(() => {
+          this.$router.push('/login')
+        })
+        .catch((e) => {
+          this.error = e + ''
+        })
     },
   },
 }

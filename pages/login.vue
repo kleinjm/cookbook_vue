@@ -1,22 +1,39 @@
 <template>
   <v-layout>
     <v-flex>
-      <v-card v-if="$auth.$state.loggedIn">
-        <v-alert type="error" :value="error">{{ error }}</v-alert>
-        <v-card-text>Logged in as {{ $auth.$state.user.email }}</v-card-text>
-        <v-card-actions>
-          <v-btn @click="logout">Log out</v-btn>
-        </v-card-actions>
-      </v-card>
-      <v-card v-else>
+      <v-card>
         <v-alert type="error" :value="error">{{ error }}</v-alert>
         <v-card-text>
           <v-form>
-            <v-text-field v-model="email" label="Email" />
-            <v-text-field v-model="password" label="Password" type="password" />
+            <v-text-field
+              v-model="email"
+              label="Email"
+              :error-messages="emailErrors"
+              required
+              @input="$v.email.$touch()"
+              @blur="$v.email.$touch()"
+            />
+            <v-text-field
+              v-model="password"
+              label="Password"
+              :error-messages="passwordErrors"
+              required
+              :append-icon="passwordVisible ? 'visibility' : 'visibility_off'"
+              :type="passwordVisible ? 'text' : 'password'"
+              counter
+              @click:append="passwordVisible = !passwordVisible"
+              @input="$v.password.$touch()"
+              @blur="$v.password.$touch()"
+            />
           </v-form>
           <v-card-actions>
-            <v-btn @click="login">Log in</v-btn>
+            <v-btn
+              color="info"
+              :loading="loading"
+              :disabled="loading"
+              @click="submitForm"
+              >Log In</v-btn
+            >
           </v-card-actions>
         </v-card-text>
       </v-card>
@@ -25,32 +42,24 @@
 </template>
 
 <script>
+import { required, email, minLength } from 'vuelidate/lib/validators'
+import LoginMixin from '~/mixins/LoginMixin'
+
 export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-      error: null,
-    }
+  mixins: [LoginMixin],
+  validations: {
+    email: { required, email },
+    password: { required, minLength: minLength(8) },
   },
   methods: {
-    login: function() {
-      this.$auth
-        .login({
-          data: {
-            user: {
-              email: this.email,
-              password: this.password,
-            },
+    formAction() {
+      return this.$auth.login({
+        data: {
+          user: {
+            email: this.email,
+            password: this.password,
           },
-        })
-        .catch((e) => {
-          this.error = e + ''
-        })
-    },
-    logout: function() {
-      this.$auth.logout().catch((e) => {
-        this.error = e + ''
+        },
       })
     },
   },
