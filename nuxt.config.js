@@ -1,35 +1,16 @@
 import path from 'path'
 import colors from 'vuetify/es5/util/colors'
-import { port, host, baseURL } from './.env.development'
+import auth from './config/auth'
+import axios from './config/axios'
+import env from './config/env'
+import head from './config/head'
 
 const projectSrc = path.join(__dirname, 'src')
 
 export default {
   mode: 'universal',
-  /*
-   ** Headers of the page
-   */
-  head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: process.env.npm_package_name || '',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      {
-        hid: 'description',
-        name: 'description',
-        content: process.env.npm_package_description || '',
-      },
-    ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
-      },
-    ],
-  },
+  env,
+  head,
   /*
    ** Customize the progress-bar color
    */
@@ -52,11 +33,7 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/vuetify',
   ],
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
-  axios: { host, port, baseURL },
+  axios,
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -84,21 +61,7 @@ export default {
       config.resolve.alias['~utils'] = path.join(projectSrc, 'utils')
     },
   },
-  auth: {
-    strategies: {
-      local: {
-        endpoints: {
-          login: {
-            url: '/users/sign_in',
-            method: 'post',
-            propertyName: 'token',
-          },
-          logout: { url: '/users/sign_out', method: 'delete' },
-          user: { url: '/users/current', propertyName: 'user' },
-        },
-      },
-    },
-  },
+  auth,
   router: {
     middleware: ['auth'],
   },
