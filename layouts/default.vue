@@ -65,6 +65,9 @@
     </v-toolbar>
     <v-content>
       <v-container>
+        <v-alert v-model="globalAlert" dismissible type="success">
+          {{ globalAlert }}
+        </v-alert>
         <nuxt />
       </v-container>
     </v-content>
@@ -87,6 +90,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
@@ -112,7 +117,11 @@ export default {
       error: null,
     }
   },
+  computed: {
+    ...mapGetters(['globalAlert']),
+  },
   methods: {
+    ...mapActions(['setGlobalAlert']),
     logout() {
       this.$auth
         .logout()

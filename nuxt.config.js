@@ -1,11 +1,11 @@
-import path from 'path'
-import colors from 'vuetify/es5/util/colors'
 import auth from './config/auth'
 import axios from './config/axios'
 import env from './config/env'
 import head from './config/head'
-
-const projectSrc = path.join(__dirname, 'src')
+import css from './config/css'
+import router from './config/router'
+import build from './config/build'
+import vuetify from './config/vuetify'
 
 export default {
   mode: 'universal',
@@ -15,10 +15,7 @@ export default {
    ** Customize the progress-bar color
    */
   loading: { color: '#fff' },
-  /*
-   ** Global CSS
-   */
-  css: [],
+  css,
   /*
    ** Plugins to load before mounting the App
    */
@@ -34,35 +31,8 @@ export default {
     '@nuxtjs/vuetify',
   ],
   axios,
-  /*
-   ** vuetify module configuration
-   ** https://github.com/nuxt-community/vuetify-module
-   */
-  vuetify: {
-    theme: {
-      primary: colors.blue.darken2,
-      accent: colors.grey.darken3,
-      secondary: colors.amber.darken3,
-      info: colors.teal.lighten1,
-      warning: colors.amber.base,
-      error: colors.deepOrange.accent4,
-      success: colors.green.accent3,
-    },
-  },
-  /*
-   ** Build configuration
-   */
-  build: {
-    /*
-     ** You can extend webpack config here
-     */
-    extend(config, ctx) {
-      config.resolve.alias['~mixins'] = path.join(projectSrc, 'mixins')
-      config.resolve.alias['~utils'] = path.join(projectSrc, 'utils')
-    },
-  },
+  vuetify,
+  build,
   auth,
-  router: {
-    middleware: ['auth'],
-  },
+  router,
 }
