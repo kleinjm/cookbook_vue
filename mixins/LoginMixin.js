@@ -30,6 +30,8 @@ export default {
 
       try {
         await this.formAction()
+
+        this.$router.push('/')
       } catch (e) {
         this.error = formattedAxiosErrors(e)
       } finally {
