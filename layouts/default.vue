@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app light>
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -28,11 +28,18 @@
             <v-list-tile-title>Sign out</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile v-else to="/login" router>
-          <v-list-tile-content>
-            <v-list-tile-title>Sign in</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+        <template v-else>
+          <v-list-tile to="/login" router>
+            <v-list-tile-content>
+              <v-list-tile-title>Log In</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile to="/sign-up" router>
+            <v-list-tile-content>
+              <v-list-tile-title>Sign Up</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar :clipped-left="clipped" fixed app>

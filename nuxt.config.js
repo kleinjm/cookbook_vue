@@ -1,5 +1,8 @@
+import path from 'path'
 import colors from 'vuetify/es5/util/colors'
-import { port, host } from './.env.development'
+import { port, host, baseURL } from './.env.development'
+
+const projectSrc = path.join(__dirname, 'src')
 
 export default {
   mode: 'universal',
@@ -38,7 +41,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: '~/plugins/Vuelidate' }],
   /*
    ** Nuxt.js modules
    */
@@ -53,7 +56,7 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: { host, port },
+  axios: { host, port, baseURL },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -76,19 +79,21 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {},
+    extend(config, ctx) {
+      config.resolve.alias['~utils'] = path.join(projectSrc, 'utils')
+    },
   },
   auth: {
     strategies: {
       local: {
         endpoints: {
           login: {
-            url: '/api/users/sign_in',
+            url: '/users/sign_in',
             method: 'post',
             propertyName: 'token',
           },
-          logout: { url: '/api/users/sign_out', method: 'delete' },
-          user: { url: '/api/users/current', propertyName: 'user' },
+          logout: { url: '/users/sign_out', method: 'delete' },
+          user: { url: '/users/current', propertyName: 'user' },
         },
       },
     },
