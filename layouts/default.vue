@@ -69,7 +69,7 @@
           v-model="displayGlobalAlert"
           dismissible
           :type="alertType"
-          transition="slide-y-transition"
+          transition="scale-transition"
         >
           {{ globalAlert.message }}
         </v-alert>
