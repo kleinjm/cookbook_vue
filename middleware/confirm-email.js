@@ -5,12 +5,15 @@ export default async function({ query, store }) {
     const url = `${process.env.baseUrl}/users/confirmation?confirmation_token=${query.confirmation_token}`
     try {
       await axios.get(url)
-      store.state.globalAlert = 'Email successfully confirmed'
+
+      store.state.globalAlert.type = 'success'
+      store.state.globalAlert.message = 'Email successfully confirmed'
     } catch (e) {
+      store.state.globalAlert.type = 'error'
       if (e.response.data.email) {
-        store.state.globalAlert = `Email ${e.response.data.email[0]}`
+        store.state.globalAlert.message = `Email ${e.response.data.email[0]}`
       } else {
-        store.state.globalAlert = e
+        store.state.globalAlert.message = e.message
       }
     }
   }

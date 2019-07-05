@@ -40,6 +40,7 @@
               @click:append="passwordVisible = !passwordVisible"
               @input="$v.password.$touch()"
               @blur="$v.password.$touch()"
+              @keyup.enter="submitForm"
             />
           </v-form>
           <v-card-actions>
@@ -53,7 +54,7 @@
           </v-card-actions>
           <p class="font-weight-light mt-4">Already have an account?</p>
           <v-card-actions>
-            <v-btn to="/login" router>Log In</v-btn>
+            <v-btn to="/login" router :disabled="loading">Log In</v-btn>
           </v-card-actions>
         </v-card-text>
       </v-card>
@@ -63,6 +64,7 @@
 
 <script>
 import { required, email, minLength } from 'vuelidate/lib/validators'
+import { mapActions } from 'vuex'
 import LoginMixin from '~/mixins/LoginMixin'
 import { fieldErrors } from '~/utils/vuelidate'
 
@@ -90,6 +92,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['setGlobalAlert']),
     async formAction() {
       await this.$axios.post('/users', {
         user: {
@@ -107,6 +110,10 @@ export default {
             password: this.password,
           },
         },
+      })
+      this.setGlobalAlert({
+        message: 'Please check your email to confirm your address',
+        type: 'success',
       })
     },
   },

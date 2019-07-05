@@ -1,6 +1,9 @@
-const state = {
-  globalAlert: '',
+const globalAlert = {
+  message: '',
+  type: '',
 }
+
+const state = () => ({ globalAlert })
 
 const getters = {
   globalAlert: (state) => {
@@ -9,17 +12,18 @@ const getters = {
 }
 
 const mutations = {
-  setGlobalAlert(state, message) {
-    state.globalAlert = message
+  setGlobalAlert(state, { message, type }) {
+    state.globalAlert.message = message
+    state.globalAlert.type = type
   },
   clearGlobalAlert(state) {
-    state.globalAlert = ''
+    state.globalAlert = globalAlert
   },
 }
 
 const actions = {
-  setGlobalAlert(context, message) {
-    context.commit('setGlobalAlert', message)
+  setGlobalAlert(context, { message, type = 'success' }) {
+    context.commit('setGlobalAlert', { message, type })
   },
   clearGlobalAlert(context) {
     context.commit('clearGlobalAlert')

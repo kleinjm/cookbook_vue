@@ -65,8 +65,13 @@
     </v-toolbar>
     <v-content>
       <v-container>
-        <v-alert v-model="globalAlert" dismissible type="success">
-          {{ globalAlert }}
+        <v-alert
+          v-model="displayGlobalAlert"
+          dismissible
+          :type="alertType"
+          transition="slide-y-transition"
+        >
+          {{ globalAlert.message }}
         </v-alert>
         <nuxt />
       </v-container>
@@ -115,13 +120,32 @@ export default {
       rightDrawer: false,
       title: 'Cookbook',
       error: null,
+      displayGlobalAlert: false,
     }
   },
   computed: {
     ...mapGetters(['globalAlert']),
+    globalAlertPopulated() {
+      const message = this.globalAlert.message
+      return message !== '' && message !== null && message !== undefined
+    },
+    alertType() {
+      return this.globalAlert.type || 'success'
+    },
+  },
+  watch: {
+    displayGlobalAlert(displayed) {
+      if (!displayed) this.clearGlobalAlert()
+    },
+    globalAlertPopulated(displayed) {
+      if (displayed) this.displayGlobalAlert = true
+    },
+  },
+  created() {
+    this.displayGlobalAlert = this.globalAlertPopulated
   },
   methods: {
-    ...mapActions(['setGlobalAlert']),
+    ...mapActions(['clearGlobalAlert']),
     logout() {
       this.$auth
         .logout()

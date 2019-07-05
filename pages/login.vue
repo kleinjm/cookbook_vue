@@ -24,6 +24,7 @@
               @click:append="passwordVisible = !passwordVisible"
               @input="$v.password.$touch()"
               @blur="$v.password.$touch()"
+              @keyup.enter="submitForm"
             />
           </v-form>
           <v-card-actions>
@@ -34,6 +35,10 @@
               @click="submitForm"
               >Log In</v-btn
             >
+          </v-card-actions>
+          <p class="font-weight-light mt-4">Don't have an account?</p>
+          <v-card-actions>
+            <v-btn to="/sign-up" router :disabled="loading">Sign Up</v-btn>
           </v-card-actions>
         </v-card-text>
       </v-card>
