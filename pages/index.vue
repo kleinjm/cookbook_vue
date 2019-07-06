@@ -28,8 +28,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="primary" flat nuxt to="/inspire">
-            Continue
+          <v-btn color="primary" flat nuxt to="/recipes">
+            Recipes
           </v-btn>
         </v-card-actions>
       </v-card>

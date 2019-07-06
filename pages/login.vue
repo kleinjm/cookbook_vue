@@ -57,8 +57,8 @@ export default {
     password: { required, minLength: minLength(8) },
   },
   methods: {
-    formAction() {
-      return this.$auth.login({
+    async formAction() {
+      await this.$auth.login({
         data: {
           user: {
             email: this.email,

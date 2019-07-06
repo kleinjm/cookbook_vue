@@ -16,4 +16,7 @@ export default {
       },
     },
   },
+  redirect: {
+    login: '/recipes',
+  },
 }
