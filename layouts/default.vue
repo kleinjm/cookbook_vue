@@ -1,6 +1,12 @@
 <template>
-  <v-app light>
-    <v-navigation-drawer v-model="drawer" fixed app right>
+  <v-app :dark="isDarkTheme">
+    <v-navigation-drawer
+      v-if="$auth.$state.loggedIn"
+      v-model="drawer"
+      fixed
+      app
+      right
+    >
       <v-alert type="error" :value="error">{{ error }}</v-alert>
       <v-list>
         <v-list-tile>
@@ -13,23 +19,16 @@
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile v-if="$auth.$state.loggedIn" @click="logout">
+        <v-list-tile @click="toggleDarkTheme">
+          <v-list-tile-content>
+            <v-list-tile-title>{{ themeNameDisplay }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="logout">
           <v-list-tile-content>
             <v-list-tile-title>Sign out</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <template v-else>
-          <v-list-tile to="/login" router>
-            <v-list-tile-content>
-              <v-list-tile-title>Log In</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile to="/sign-up" router>
-            <v-list-tile-content>
-              <v-list-tile-title>Sign Up</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </template>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar fixed app color="primary">
@@ -39,7 +38,7 @@
         </v-toolbar-title>
       </router-link>
       <v-spacer />
-      <v-toolbar-items class="hidden-sm-and-down">
+      <v-toolbar-items class="hidden-xs-only">
         <v-btn flat class="white--text">
           <v-badge color="info" left>
             <template v-slot:badge>
@@ -49,7 +48,7 @@
           </v-badge>
         </v-btn>
         <template v-if="$auth.$state.loggedIn">
-          <v-btn flat @click="drawer = !drawer">
+          <v-btn flat icon @click="drawer = !drawer">
             <v-icon class="white--text">
               account_circle
             </v-icon>
@@ -78,8 +77,15 @@
         <nuxt />
       </v-container>
     </v-content>
-    <v-footer app>
-      <span>&copy; 2019</span>
+    <v-footer app height="auto" color="primary lighten-1">
+      <v-layout justify-center row wrap>
+        <v-btn v-for="link in links" :key="link" color="white" flat round>
+          {{ link }}
+        </v-btn>
+        <v-flex primary lighten-2 py-3 text-xs-center white--text xs12>
+          &copy;2018 — <strong>Cookbook</strong>
+        </v-flex>
+      </v-layout>
     </v-footer>
   </v-app>
 </template>
@@ -94,10 +100,11 @@ export default {
       right: true,
       error: null,
       displayGlobalAlert: false,
+      links: ['Home', 'About Us', 'Team', 'Services', 'Blog', 'Contact Us'],
     }
   },
   computed: {
-    ...mapGetters(['globalAlert']),
+    ...mapGetters(['globalAlert', 'isDarkTheme']),
     globalAlertPopulated() {
       const message = this.globalAlert.message
       return message !== '' && message !== null && message !== undefined
@@ -110,6 +117,9 @@ export default {
       if (!user) return
 
       return `${user.first_name} ${user.last_name}`
+    },
+    themeNameDisplay() {
+      return this.isDarkTheme ? 'Light Theme' : 'Dark Theme'
     },
   },
   watch: {
@@ -124,7 +134,7 @@ export default {
     this.displayGlobalAlert = this.globalAlertPopulated
   },
   methods: {
-    ...mapActions(['clearGlobalAlert']),
+    ...mapActions(['clearGlobalAlert', 'toggleDarkTheme']),
     logout() {
       this.drawer = false
       this.$auth

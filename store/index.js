@@ -2,12 +2,16 @@ const globalAlert = {
   message: '',
   type: '',
 }
+const isDarkTheme = false
 
-const state = () => ({ globalAlert })
+const state = () => ({ globalAlert, isDarkTheme })
 
 const getters = {
   globalAlert: (state) => {
     return state.globalAlert
+  },
+  isDarkTheme: (state) => {
+    return state.isDarkTheme
   },
 }
 
@@ -19,6 +23,9 @@ const mutations = {
   clearGlobalAlert(state) {
     state.globalAlert = globalAlert
   },
+  toggleDarkTheme(state) {
+    state.isDarkTheme = !state.isDarkTheme
+  },
 }
 
 const actions = {
@@ -27,6 +34,9 @@ const actions = {
   },
   clearGlobalAlert(context) {
     context.commit('clearGlobalAlert')
+  },
+  toggleDarkTheme(context) {
+    context.commit('toggleDarkTheme')
   },
 }
 

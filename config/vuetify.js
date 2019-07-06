@@ -4,7 +4,7 @@
  */
 export default {
   theme: {
-    primary: '#009688',
+    primary: '#40A798',
     secondary: '#607d8b',
     accent: '#03a9f4',
     error: '#ff5722',
