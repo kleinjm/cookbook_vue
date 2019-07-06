@@ -9,8 +9,7 @@
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>
-              {{ $auth.$state.user.first_name }}
-              {{ $auth.$state.user.last_name }}
+              {{ fullName }}
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
@@ -105,6 +104,12 @@ export default {
     },
     alertType() {
       return this.globalAlert.type || 'success'
+    },
+    fullName() {
+      const user = this.$auth.$state.user
+      if (!user) return
+
+      return `${user.first_name} ${user.last_name}`
     },
   },
   watch: {
