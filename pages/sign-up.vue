@@ -70,7 +70,7 @@ import { fieldErrors } from '~/utils/vuelidate'
 
 export default {
   mixins: [LoginMixin],
-  auth: 'guest',
+  auth: false,
   data() {
     return {
       firstName: '',
