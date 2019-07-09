@@ -1,6 +1,10 @@
 <template>
   <div>
-    Toolbar
+    <v-btn flat icon router to="/recipes/new">
+      <v-icon large class="primary--text">
+        add_circle
+      </v-icon>
+    </v-btn>
     <v-divider />
     <br />
     <v-data-table :headers="headers" :items="desserts" class="elevation-1">
