@@ -8,4 +8,5 @@ export default [
   '@nuxtjs/eslint-module',
   '@nuxtjs/pwa',
   '@nuxtjs/vuetify',
+  'nuxt-material-design-icons',
 ]
