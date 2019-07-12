@@ -1,38 +1,28 @@
+import apollo from './config/apollo'
 import auth from './config/auth'
 import axios from './config/axios'
+import build from './config/build'
+import css from './config/css'
 import env from './config/env'
 import head from './config/head'
-import css from './config/css'
+import loading from './config/loading'
+import modules from './config/modules'
+import plugins from './config/plugins'
 import router from './config/router'
-import build from './config/build'
 import vuetify from './config/vuetify'
 
 export default {
-  mode: 'universal',
+  apollo,
+  auth,
+  axios,
+  build,
+  css,
   env,
   head,
-  /*
-   ** Customize the progress-bar color
-   */
-  loading: { color: '#fff' },
-  css,
-  /*
-   ** Plugins to load before mounting the App
-   */
-  plugins: [{ src: '~/plugins/Vuelidate' }],
-  /*
-   ** Nuxt.js modules
-   */
-  modules: [
-    '@nuxtjs/auth',
-    '@nuxtjs/axios', // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/pwa',
-    '@nuxtjs/vuetify',
-  ],
-  axios,
-  vuetify,
-  build,
-  auth,
+  loading,
+  mode: 'universal',
+  modules,
+  plugins,
   router,
+  vuetify,
 }
