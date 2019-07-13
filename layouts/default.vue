@@ -105,9 +105,9 @@ export default {
   },
   methods: {
     ...mapActions(['clearGlobalAlert', 'toggleDarkTheme']),
-    logout() {
+    async logout() {
       this.drawer = false
-      this.$auth
+      await this.$auth
         .logout()
         .then(() => {
           this.$router.push('/login')
@@ -115,6 +115,7 @@ export default {
         .catch((e) => {
           this.error = e + ''
         })
+      await this.$apolloHelpers.onLogout()
     },
   },
 }

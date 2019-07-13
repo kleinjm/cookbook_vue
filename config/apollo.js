@@ -1,9 +1,5 @@
-import env from './env'
-
 export default {
   clientConfigs: {
-    default: {
-      httpEndpoint: env.baseGqlUrl,
-    },
+    default: '~/plugins/apollo-config.js',
   },
 }

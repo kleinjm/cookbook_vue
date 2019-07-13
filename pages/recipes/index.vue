@@ -53,6 +53,7 @@ export default {
   apollo: {
     recipes: {
       query: allRecipesQuery,
+      update: (data) => {},
     },
   },
 }

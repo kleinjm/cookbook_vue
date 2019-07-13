@@ -66,6 +66,10 @@ export default {
           },
         },
       })
+      const token = this.$auth.$storage._state['_token.local'].split(
+        'Bearer ',
+      )[1]
+      await this.$apolloHelpers.onLogin(token)
     },
   },
 }
