@@ -7,53 +7,38 @@
     </v-btn>
     <v-divider />
     <br />
-    <v-data-table :headers="headers" :items="desserts" class="elevation-1">
+    <v-data-table :headers="headers" :items="recipes" class="elevation-1">
       <template v-slot:items="props">
         <td>{{ props.item.name }}</td>
-        <td class="text-xs-right">{{ props.item.calories }}</td>
-        <td class="text-xs-right">{{ props.item.fat }}</td>
-        <td class="text-xs-right">{{ props.item.carbs }}</td>
-        <td class="text-xs-right">{{ props.item.protein }}</td>
-        <td class="text-xs-right">{{ props.item.iron }}</td>
+        <td class="text-xs-right">{{ props.item.timesCooked }}</td>
+        <td class="text-xs-right">{{ props.item.upNext }}</td>
       </template>
     </v-data-table>
   </div>
 </template>
 <script>
 import { allRecipesQuery } from '~/queries/recipes'
+import { flattenEdgeNodes } from '~/utils/apollo'
 
 export default {
   data() {
     return {
       headers: [
         {
-          text: 'Dessert (100g serving)',
+          text: 'Name',
           align: 'left',
-          sortable: false,
           value: 'name',
         },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Iron (%)', value: 'iron' },
+        { text: 'Times Cooked', value: 'timesCooked' },
+        { text: 'Up Next', value: 'upNext' },
       ],
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1%',
-        },
-      ],
+      recipes: [],
     }
   },
   apollo: {
     recipes: {
       query: allRecipesQuery,
-      update: (data) => {},
+      update: flattenEdgeNodes,
     },
   },
 }

@@ -33,6 +33,7 @@
 import _isEmpty from 'lodash/isEmpty'
 import { required } from 'vuelidate/lib/validators'
 import { fieldErrors } from '~/utils/vuelidate'
+import createRecipe from '~/mutations/create-recipe'
 
 export default {
   data() {
@@ -57,8 +58,21 @@ export default {
   },
   methods: {
     submitForm() {
+      this.$v.$touch()
+      if (this.$v.$invalid) return
+
       this.loading = true
-      return true
+
+      return createRecipe({
+        apollo: this.$apollo,
+        form: this.form,
+      })
+        .then((data) => {
+          debugger
+        })
+        .catch((e) => {
+          debugger
+        })
     },
   },
 }

@@ -10,6 +10,8 @@ export default {
    */
   extend(config, ctx) {
     config.resolve.alias['~mixins'] = path.join(projectSrc, 'mixins')
+    config.resolve.alias['~mutations'] = path.join(projectSrc, 'mutations')
+    config.resolve.alias['~queries'] = path.join(projectSrc, 'queries')
     config.resolve.alias['~utils'] = path.join(projectSrc, 'utils')
   },
 }

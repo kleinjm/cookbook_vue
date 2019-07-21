@@ -1,16 +1,93 @@
 import gql from 'graphql-tag'
 
+const AllFieldsFragment = gql`
+  fragment AllFields on Recipe {
+    id
+    name
+    ingredients {
+      nodes {
+        id
+        name
+        quantity
+        unit
+      }
+    }
+    stepList
+    link
+    tags {
+      nodes {
+        id
+        name
+      }
+    }
+    upNext
+    timesCooked
+    source
+    lastCooked
+  }
+`
+
+const recipeShowQuery = gql`
+  query($recipeId: ID!) {
+    node(id: $recipeId) {
+      ... on Recipe {
+        ...AllFields
+      }
+    }
+  }
+  ${AllFieldsFragment}
+`
+
 const allRecipesQuery = gql`
-  query {
-    recipes {
-      edges {
-        node {
-          id
-          name
+  query($searchText: String, $tagIds: [ID!]) {
+    recipes(searchQuery: $searchText, tagIds: $tagIds) {
+      nodes {
+        id
+        name
+        timesCooked
+        upNext
+        tags {
+          nodes {
+            id
+          }
         }
+        lastCooked
       }
     }
   }
 `
 
-export { allRecipesQuery }
+const upNextRecipesQuery = gql`
+  query {
+    recipes(upNext: true) {
+      nodes {
+        id
+        name
+        timesCooked
+        upNext
+      }
+    }
+  }
+`
+
+const ingredientSearchQuery = gql`
+  query($ingredientSearch: String) {
+    recipes(ingredientSearch: $ingredientSearch) {
+      nodes {
+        id
+        name
+        timesCooked
+        upNext
+        lastCooked
+      }
+    }
+  }
+`
+
+export {
+  AllFieldsFragment,
+  allRecipesQuery,
+  ingredientSearchQuery,
+  recipeShowQuery,
+  upNextRecipesQuery,
+}
