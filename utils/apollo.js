@@ -9,3 +9,7 @@ export function flattenEdgeNodes(data) {
 
   return _map(edges, 'node')
 }
+
+export function extractUuid(fullId) {
+  return fullId.split('/')[1]
+}

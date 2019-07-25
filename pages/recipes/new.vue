@@ -32,8 +32,9 @@
 <script>
 import _isEmpty from 'lodash/isEmpty'
 import { required } from 'vuelidate/lib/validators'
-import { fieldErrors } from '~/utils/vuelidate'
+import { extractUuid } from '~/utils/apollo'
 import createRecipe from '~/mutations/create-recipe'
+import { fieldErrors } from '~/utils/vuelidate'
 
 export default {
   data() {
@@ -67,11 +68,14 @@ export default {
         apollo: this.$apollo,
         form: this.form,
       })
-        .then((data) => {
-          debugger
+        .then(({ data }) => {
+          if (!data.createRecipe.success) throw data.createRecipe.errors
+          const recipe = data.createRecipe.recipe
+          const uuid = extractUuid(recipe.id)
+          this.$router.push({ path: `/recipes/${uuid}` })
         })
         .catch((e) => {
-          debugger
+          this.errors = e
         })
     },
   },
