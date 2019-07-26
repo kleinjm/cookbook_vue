@@ -28,11 +28,9 @@ const AllFieldsFragment = gql`
 `
 
 const recipeShowQuery = gql`
-  query($recipeId: ID!) {
-    node(id: $recipeId) {
-      ... on Recipe {
-        ...AllFields
-      }
+  query($uuid: ID!) {
+    recipe(uuid: $uuid) {
+      ...AllFields
     }
   }
   ${AllFieldsFragment}

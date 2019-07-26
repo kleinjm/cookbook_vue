@@ -1,6 +1,6 @@
 <template>
   <v-toolbar fixed app color="primary">
-    <router-link to="/" class="white--text">
+    <router-link to="/recipes" class="white--text">
       <v-toolbar-title>
         Cookbook
       </v-toolbar-title>

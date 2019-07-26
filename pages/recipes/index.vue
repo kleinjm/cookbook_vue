@@ -9,7 +9,11 @@
     <br />
     <v-data-table :headers="headers" :items="recipes" class="elevation-1">
       <template v-slot:items="props">
-        <td>{{ props.item.name }}</td>
+        <td>
+          <nuxt-link :to="recipeRoute(props.item.id)">{{
+            props.item.name
+          }}</nuxt-link>
+        </td>
         <td class="text-xs-right">{{ props.item.timesCooked }}</td>
         <td class="text-xs-right">{{ props.item.upNext }}</td>
       </template>
@@ -18,7 +22,7 @@
 </template>
 <script>
 import { allRecipesQuery } from '~/queries/recipes'
-import { flattenEdgeNodes } from '~/utils/apollo'
+import { extractUuid } from '~/utils/apollo'
 
 export default {
   data() {
@@ -35,10 +39,20 @@ export default {
       recipes: [],
     }
   },
+  methods: {
+    recipeRoute(recipeId) {
+      return {
+        name: 'recipes-recipeId',
+        params: { recipeId: extractUuid(recipeId) },
+      }
+    },
+  },
   apollo: {
     recipes: {
       query: allRecipesQuery,
-      update: flattenEdgeNodes,
+      update({ recipes }) {
+        return recipes.nodes
+      },
     },
   },
 }

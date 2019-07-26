@@ -51,7 +51,7 @@
           {{ link }}
         </v-btn>
         <v-flex primary lighten-2 py-3 text-xs-center white--text xs12>
-          &copy;2018 — <strong>Cookbook</strong>
+          &copy;2019 — <strong>Cookbook</strong>
         </v-flex>
       </v-layout>
     </v-footer>

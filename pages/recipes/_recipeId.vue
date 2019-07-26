@@ -19,11 +19,9 @@ export default {
     recipe: {
       query: recipeShowQuery,
       variables() {
-        return { recipeId: this.recipeId }
+        return { uuid: this.$route.params.recipeId }
       },
-      result({ data }) {
-        debugger
-      },
+      result({ data }) {},
     },
   },
 }
