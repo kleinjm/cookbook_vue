@@ -1,26 +1,41 @@
 <template>
   <div>
-    <v-btn flat icon router to="/recipes/new">
-      <v-icon large class="primary--text">
-        add_circle
-      </v-icon>
-    </v-btn>
-    <v-divider />
-    <br />
-    <v-data-table :headers="headers" :items="recipes" class="elevation-1">
-      <template v-slot:items="props">
-        <td>
-          <nuxt-link :to="recipeRoute(props.item.id)">{{
-            props.item.name
-          }}</nuxt-link>
-        </td>
-        <td class="text-xs-right">{{ props.item.timesCooked }}</td>
-        <td class="text-xs-right">{{ props.item.upNext }}</td>
-      </template>
-    </v-data-table>
+    <v-card>
+      <v-card-title>
+        Recipes
+        <v-btn text icon router to="/recipes/new">
+          <v-icon large class="primary--text">
+            add_circle
+          </v-icon>
+        </v-btn>
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="search"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+
+      <no-ssr>
+        <v-data-table :headers="headers" :items="recipes" :search="search">
+          <template v-slot:item.name="{ item }">
+            <nuxt-link :to="recipeRoute(item.id)">{{ item.name }}</nuxt-link>
+          </template>
+          <template v-slot:item.timesCooked="{ item }">
+            {{ item.timesCooked }}
+          </template>
+          <template v-slot:item.timesCooked="{ item }">
+            {{ item.upNext }}
+          </template>
+        </v-data-table>
+      </no-ssr>
+    </v-card>
   </div>
 </template>
 <script>
+import _get from 'lodash/get'
 import { allRecipesQuery } from '~/queries/recipes'
 import { extractUuid } from '~/utils/apollo'
 
@@ -37,6 +52,7 @@ export default {
         { text: 'Up Next', value: 'upNext' },
       ],
       recipes: [],
+      search: '',
     }
   },
   methods: {
@@ -51,7 +67,7 @@ export default {
     recipes: {
       query: allRecipesQuery,
       update({ recipes }) {
-        return recipes.nodes
+        return _get(recipes, 'nodes', [])
       },
     },
   },

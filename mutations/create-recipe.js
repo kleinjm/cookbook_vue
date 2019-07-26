@@ -6,7 +6,7 @@ const mutation = gql`
     $name: String!
     $ingredients: String
     $link: String
-    $notes: String
+    $description: String
     $source: String
     $steps: String
     $tagIds: [ID!]
@@ -16,7 +16,7 @@ const mutation = gql`
         name: $name
         ingredients: $ingredients
         link: $link
-        notes: $notes
+        description: $description
         source: $source
         steps: $steps
         tagIds: $tagIds

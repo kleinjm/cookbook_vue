@@ -54,7 +54,7 @@ export default {
       return fieldErrors('form.name', this)
     },
     displayErrors() {
-      return _isEmpty(this.errors) ? undefined : true
+      return !_isEmpty(this.errors)
     },
   },
   methods: {

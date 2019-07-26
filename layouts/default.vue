@@ -4,34 +4,46 @@
       v-if="$auth.$state.loggedIn"
       v-model="drawer"
       fixed
-      app
       right
     >
       <v-alert type="error" :value="error">{{ error }}</v-alert>
-      <v-list>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>app</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>
-              {{ fullName }}
-            </v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="toggleDarkTheme">
-          <v-list-tile-content>
-            <v-list-tile-title>{{ themeNameDisplay }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="logout">
-          <v-list-tile-content>
-            <v-list-tile-title>Sign out</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="title">
+            {{ fullName }}
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            <v-icon>mdi-account</v-icon>
+            Account
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list dense nav>
+        <v-list-item @click="toggleDarkTheme">
+          <v-list-item-icon>
+            <v-icon>mdi-view-dashboard</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ themeNameDisplay }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="logout">
+          <v-list-item-icon>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Sign out</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
+
     <Navbar @toggle-drawer="drawer = !drawer" />
+
     <v-content>
       <v-container>
         <v-alert
@@ -45,9 +57,10 @@
         <nuxt />
       </v-container>
     </v-content>
+
     <v-footer app height="auto" color="primary lighten-1">
       <v-layout justify-center row wrap>
-        <v-btn v-for="link in links" :key="link" color="white" flat round>
+        <v-btn v-for="link in links" :key="link" color="white" text rounded>
           {{ link }}
         </v-btn>
         <v-flex primary lighten-2 py-3 text-xs-center white--text xs12>

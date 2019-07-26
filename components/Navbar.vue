@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar fixed app color="primary">
+  <v-app-bar fixed app color="primary">
     <router-link to="/recipes" class="white--text">
       <v-toolbar-title>
         Cookbook
@@ -7,7 +7,7 @@
     </router-link>
     <v-spacer />
     <v-toolbar-items class="hidden-xs-only">
-      <v-btn flat class="white--text">
+      <v-btn text class="white--text">
         <v-badge color="info" left>
           <template v-slot:badge>
             <span>4</span>
@@ -16,20 +16,20 @@
         </v-badge>
       </v-btn>
       <template v-if="$auth.$state.loggedIn">
-        <v-btn flat icon @click="$emit('toggle-drawer')">
+        <v-btn text icon @click="$emit('toggle-drawer')">
           <v-icon class="white--text">
             account_circle
           </v-icon>
         </v-btn>
       </template>
       <template v-else>
-        <v-btn to="/login" router flat class="white--text">
+        <v-btn to="/login" router text class="white--text">
           Sign In
         </v-btn>
-        <v-btn to="/sign-up" router flat class="white--text">
+        <v-btn to="/sign-up" router text class="white--text">
           Sign Up
         </v-btn>
       </template>
     </v-toolbar-items>
-  </v-toolbar>
+  </v-app-bar>
 </template>

@@ -28,7 +28,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="primary" flat nuxt to="/recipes">
+          <v-btn color="primary" text nuxt to="/recipes">
             Recipes
           </v-btn>
         </v-card-actions>
