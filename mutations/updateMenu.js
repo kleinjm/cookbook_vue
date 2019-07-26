@@ -1,10 +1,10 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 const mutation = gql`
   mutation updateMenu($menuId: ID!, $name: String, $description: String) {
-    updateMenu(input: {
-      menuId: $menuId, name: $name, description: $description
-    }) {
+    updateMenu(
+      input: { menuId: $menuId, name: $name, description: $description }
+    ) {
       menu {
         id
         name
@@ -14,14 +14,9 @@ const mutation = gql`
       errors
     }
   }
-`;
+`
 
-export default function createMenu({
-  apollo,
-  menuId,
-  name,
-  description,
-}) {
+export default function createMenu({ apollo, menuId, name, description }) {
   return apollo.mutate({
     mutation,
     variables: {
@@ -29,5 +24,5 @@ export default function createMenu({
       name,
       description,
     },
-  });
+  })
 }

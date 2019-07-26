@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 const mutation = gql`
   mutation createMenu($name: String!, $description: String) {
@@ -12,18 +12,14 @@ const mutation = gql`
       errors
     }
   }
-`;
+`
 
-export default function createMenu({
-  apollo,
-  name,
-  description,
-}) {
+export default function createMenu({ apollo, name, description }) {
   return apollo.mutate({
     mutation,
     variables: {
       name,
       description,
     },
-  });
+  })
 }

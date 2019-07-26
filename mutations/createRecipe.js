@@ -1,31 +1,27 @@
-import gql from 'graphql-tag';
-import { AllFieldsFragment } from '~queries/recipes.js';
+import gql from 'graphql-tag'
+import { AllFieldsFragment } from '~/queries/recipes.js'
 
 const mutation = gql`
   mutation createRecipe(
-    $name: String!,
-    $categoryIds: [ID!],
-    $cookTimeQuantity: String,
-    $cookTimeUnit: String,
-    $ingredients: String,
-    $link: String,
-    $notes: String,
-    $source: String,
-    $stepText: String,
+    $name: String!
+    $ingredients: String
+    $link: String
+    $description: String
+    $source: String
+    $steps: String
     $tagIds: [ID!]
   ) {
-    createRecipe(input: {
-      name: $name,
-      categoryIds: $categoryIds,
-      cookTimeQuantity: $cookTimeQuantity,
-      cookTimeUnit: $cookTimeUnit,
-      ingredients: $ingredients,
-      link: $link,
-      notes: $notes,
-      source: $source,
-      stepText: $stepText,
-      tagIds: $tagIds,
-    }) {
+    createRecipe(
+      input: {
+        name: $name
+        ingredients: $ingredients
+        link: $link
+        description: $description
+        source: $source
+        steps: $steps
+        tagIds: $tagIds
+      }
+    ) {
       recipe {
         ...AllFields
       }
@@ -34,34 +30,14 @@ const mutation = gql`
     }
   }
   ${AllFieldsFragment}
-`;
+`
 
-export default function createRecipe({
-  apollo,
-  name,
-  categoryIds,
-  cookTimeQuantity,
-  cookTimeUnit,
-  ingredients,
-  link,
-  notes,
-  source,
-  stepText,
-  tagIds,
-}) {
+export default function createRecipe({ apollo, form }) {
   return apollo.mutate({
     mutation,
     variables: {
       name,
-      categoryIds,
-      cookTimeQuantity,
-      cookTimeUnit,
-      ingredients,
-      link,
-      notes,
-      source,
-      stepText,
-      tagIds,
+      ...form,
     },
-  });
+  })
 }

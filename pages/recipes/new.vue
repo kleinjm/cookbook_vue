@@ -4,7 +4,7 @@
       <v-card>
         <v-alert type="error" :value="displayErrors">{{ errors }}</v-alert>
         <v-card-text>
-          <v-form>
+          <v-form @submit.prevent="submitForm">
             <v-text-field
               v-model="form.name"
               label="Name"
@@ -16,6 +16,7 @@
           </v-form>
           <v-card-actions>
             <v-btn
+              type="submit"
               color="primary"
               :loading="loading"
               :disabled="loading"
@@ -33,7 +34,7 @@
 import _isEmpty from 'lodash/isEmpty'
 import { required } from 'vuelidate/lib/validators'
 import { extractUuid } from '~/utils/apollo'
-import createRecipe from '~/mutations/create-recipe'
+import createRecipe from '~/mutations/createRecipe'
 import { fieldErrors } from '~/utils/vuelidate'
 
 export default {

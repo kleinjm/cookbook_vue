@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 const mutation = gql`
   mutation updateTag($tagId: ID!, $name: String!) {
@@ -11,18 +11,14 @@ const mutation = gql`
       errors
     }
   }
-`;
+`
 
-export default function({
-  apollo,
-  tagId,
-  name,
-}) {
+export default function({ apollo, tagId, name }) {
   return apollo.mutate({
     mutation,
     variables: {
       tagId,
       name,
     },
-  });
+  })
 }

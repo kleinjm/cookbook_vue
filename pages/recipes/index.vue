@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-card>
+      <v-alert type="error" :value="displayErrors">{{ errors }}</v-alert>
       <v-card-title>
         Recipes
         <v-btn text icon router to="/recipes/new">
@@ -46,7 +47,9 @@
 </template>
 <script>
 import _get from 'lodash/get'
+import _isEmpty from 'lodash/isEmpty'
 import { allRecipesQuery } from '~/queries/recipes'
+import deleteRecipe from '~/mutations/deleteRecipe'
 
 export default {
   data() {
@@ -64,7 +67,13 @@ export default {
       recipes: [],
       search: '',
       selectedRecipes: [],
+      errors: [],
     }
+  },
+  computed: {
+    displayErrors() {
+      return !_isEmpty(this.errors)
+    },
   },
   methods: {
     recipeRoute(recipeId) {
@@ -78,7 +87,11 @@ export default {
     },
     deleteRecipe(recipe) {
       if (!confirm('Are you sure you want to delete this recipe?')) return
-      return null
+      deleteRecipe({ apollo: this.$apollo, recipeId: recipe.id }).catch(
+        (errors) => {
+          this.errors = errors
+        },
+      )
     },
   },
   apollo: {

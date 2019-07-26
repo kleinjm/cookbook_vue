@@ -1,10 +1,10 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 const mutation = gql`
   mutation addToWunderlist($recipeId: ID!, $multiplier: Float) {
-    addIngredientsToWunderlist(input: {
-      recipeId: $recipeId, multiplier: $multiplier
-    }) {
+    addIngredientsToWunderlist(
+      input: { recipeId: $recipeId, multiplier: $multiplier }
+    ) {
       node(id: $recipeId) {
         ... on Recipe {
           id
@@ -12,8 +12,8 @@ const mutation = gql`
       }
     }
   }
-`;
+`
 
 export default function({ apollo, recipeId, multiplier }) {
-  return apollo.mutate({ mutation, variables: { recipeId, multiplier } });
+  return apollo.mutate({ mutation, variables: { recipeId, multiplier } })
 }

@@ -1,15 +1,9 @@
-import gql from 'graphql-tag';
-import { AllFieldsFragment } from '~queries/recipes.js';
+import gql from 'graphql-tag'
+import { AllFieldsFragment } from '~queries/recipes.js'
 
 const mutation = gql`
-  mutation scrapeRecipe(
-    $recipeId: ID,
-    $url: String!,
-  ) {
-    scrapeRecipe(input: {
-      recipeId: $recipeId,
-      url: $url,
-    }) {
+  mutation scrapeRecipe($recipeId: ID, $url: String!) {
+    scrapeRecipe(input: { recipeId: $recipeId, url: $url }) {
       recipe {
         ...AllFields
       }
@@ -17,18 +11,14 @@ const mutation = gql`
     }
   }
   ${AllFieldsFragment}
-`;
+`
 
-export default function scrapeRecipe({
-  apollo,
-  recipeId,
-  url,
-}) {
+export default function scrapeRecipe({ apollo, recipeId, url }) {
   return apollo.mutate({
     mutation,
     variables: {
       recipeId,
       url,
     },
-  });
+  })
 }

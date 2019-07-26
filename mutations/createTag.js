@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 const mutation = gql`
   mutation createTag($name: String!) {
@@ -11,16 +11,13 @@ const mutation = gql`
       errors
     }
   }
-`;
+`
 
-export default function({
-  apollo,
-  name,
-}) {
+export default function({ apollo, name }) {
   return apollo.mutate({
     mutation,
     variables: {
       name,
     },
-  });
+  })
 }

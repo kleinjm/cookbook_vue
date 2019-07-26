@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 const mutation = gql`
   mutation updateThisWeek($recipeIds: [ID!], $thisWeek: Float!) {
@@ -11,14 +11,20 @@ const mutation = gql`
       }
     }
   }
-`;
+`
 
-export default function updateThisWeekMutation({ apollo, recipeIds, thisWeek }) {
-  return apollo.mutate({
-    mutation,
-    variables: {
-      recipeIds,
-      thisWeek,
-    },
-  }).then(response => response.data.updateRecipe.node);
+export default function updateThisWeekMutation({
+  apollo,
+  recipeIds,
+  thisWeek,
+}) {
+  return apollo
+    .mutate({
+      mutation,
+      variables: {
+        recipeIds,
+        thisWeek,
+      },
+    })
+    .then((response) => response.data.updateRecipe.node)
 }

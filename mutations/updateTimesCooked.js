@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 const mutation = gql`
   mutation updateTimesCooked($recipeId: ID!, $timesCooked: Int) {
@@ -12,7 +12,7 @@ const mutation = gql`
       }
     }
   }
-`;
+`
 
 export default function updateTimesCooked({ apollo, recipeId, timesCooked }) {
   return apollo.mutate({
@@ -21,5 +21,5 @@ export default function updateTimesCooked({ apollo, recipeId, timesCooked }) {
       recipeId,
       timesCooked,
     },
-  });
+  })
 }
