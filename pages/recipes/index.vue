@@ -19,15 +19,25 @@
       </v-card-title>
 
       <no-ssr>
-        <v-data-table :headers="headers" :items="recipes" :search="search">
+        <v-data-table
+          v-model="selectedRecipes"
+          item-key="uuid"
+          show-select
+          class="elevation-1"
+          :headers="headers"
+          :items="recipes"
+          :search="search"
+        >
           <template v-slot:item.name="{ item }">
-            <nuxt-link :to="recipeRoute(item.id)">{{ item.name }}</nuxt-link>
+            <nuxt-link :to="recipeRoute(item.uuid)">{{ item.name }}</nuxt-link>
           </template>
-          <template v-slot:item.timesCooked="{ item }">
-            {{ item.timesCooked }}
-          </template>
-          <template v-slot:item.timesCooked="{ item }">
-            {{ item.upNext }}
+          <template v-slot:item.action="{ item }">
+            <v-icon small class="mr-2" @click="editRecipe(item)">
+              edit
+            </v-icon>
+            <v-icon small @click="deleteRecipe(item)">
+              delete
+            </v-icon>
           </template>
         </v-data-table>
       </no-ssr>
@@ -37,7 +47,6 @@
 <script>
 import _get from 'lodash/get'
 import { allRecipesQuery } from '~/queries/recipes'
-import { extractUuid } from '~/utils/apollo'
 
 export default {
   data() {
@@ -50,17 +59,26 @@ export default {
         },
         { text: 'Times Cooked', value: 'timesCooked' },
         { text: 'Up Next', value: 'upNext' },
+        { text: 'Actions', value: 'action', sortable: false },
       ],
       recipes: [],
       search: '',
+      selectedRecipes: [],
     }
   },
   methods: {
     recipeRoute(recipeId) {
       return {
         name: 'recipes-recipeId',
-        params: { recipeId: extractUuid(recipeId) },
+        params: { recipeId },
       }
+    },
+    editRecipe(recipe) {
+      this.$router.push(`recipes/${recipe.uuid}`)
+    },
+    deleteRecipe(recipe) {
+      if (!confirm('Are you sure you want to delete this recipe?')) return
+      return null
     },
   },
   apollo: {

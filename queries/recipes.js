@@ -41,6 +41,7 @@ const allRecipesQuery = gql`
     recipes(searchQuery: $searchText, tagIds: $tagIds) {
       nodes {
         id
+        uuid
         name
         timesCooked
         upNext
