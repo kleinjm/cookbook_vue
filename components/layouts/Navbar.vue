@@ -1,7 +1,7 @@
 <template>
   <v-app-bar fixed app color="primary" elevate-on-scroll>
     <v-toolbar-title>
-      <nuxt-link to="/recipes" class="white--text">
+      <nuxt-link to="/recipes" class="white--text no-underline">
         Cookbook
       </nuxt-link>
     </v-toolbar-title>

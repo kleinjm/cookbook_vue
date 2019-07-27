@@ -1,5 +1,8 @@
 <template>
-  <v-layout wrap>
+  <v-layout v-if="$apollo.loading" wrap>
+    Loading
+  </v-layout>
+  <v-layout v-else wrap>
     <v-flex xs11>
       <div class="center-text">
         <h3 class="display-2">
@@ -18,34 +21,11 @@
       </div>
     </v-flex>
     <v-flex xs1>
-      <v-menu offset-y>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon>more_vert</v-icon>
-          </v-btn>
-        </template>
-        <v-list dense flat>
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-square-edit-outline</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Edit</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-        <v-divider></v-divider>
-        <v-list dense flat>
-          <v-list-item @click="deleteRecipe">
-            <v-list-item-icon>
-              <v-icon>mdi-delete</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Delete</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <RecipeActionMenu
+        :recipeId="recipe.id"
+        :recipeUuid="recipe.uuid"
+        @errors="handleErrors"
+      />
     </v-flex>
 
     <v-flex xs12>
@@ -91,11 +71,13 @@
 <script>
 import _get from 'lodash/get'
 import { recipeShowQuery } from '~/queries/recipes'
-import deleteRecipe from '~/mutations/deleteRecipe'
+import RecipeActionMenu from '~/components/recipes/recipe-action-menu'
+import { ingredientText } from '~/utils/recipe'
 
 const DATE_FORMAT = { year: 'numeric', month: 'long', day: 'numeric' }
 
 export default {
+  components: { RecipeActionMenu },
   filters: {
     formattedDate(value) {
       return new Date(value).toLocaleDateString(undefined, DATE_FORMAT)
@@ -114,22 +96,11 @@ export default {
     },
   },
   methods: {
-    ingredientText({ quantity, unit, name }) {
-      return [quantity, unit, name].join(' ')
+    ingredientText(ingredient) {
+      return ingredientText(ingredient)
     },
-    deleteRecipe() {
-      if (!confirm('Are you sure you want to delete this recipe?')) return
-
-      deleteRecipe({
-        apollo: this.$apollo,
-        recipeId: this.recipe.id,
-      })
-        .then(() => {
-          this.$router.push('/recipes')
-        })
-        .catch((errors) => {
-          this.errors = errors
-        })
+    handleErrors(errors) {
+      this.errors = errors
     },
   },
   apollo: {

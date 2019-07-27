@@ -52,10 +52,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    formData: {
+      type: Object,
+      required: false,
+      default: () => {},
+    },
   },
   data: function() {
     return {
-      form: {},
+      form: this.formData,
     }
   },
   computed: {

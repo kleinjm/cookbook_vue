@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 const AllFieldsFragment = gql`
   fragment AllFields on Recipe {
     id
+    uuid
     name
     ingredients {
       nodes {

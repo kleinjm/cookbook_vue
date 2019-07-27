@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { AllFieldsFragment } from '~/queries/recipes.js'
+import { AllFieldsFragment, allRecipesQuery } from '~/queries/recipes'
 
 const mutation = gql`
   mutation createRecipe(
@@ -35,9 +35,18 @@ const mutation = gql`
 export default function createRecipe({ apollo, form }) {
   return apollo.mutate({
     mutation,
-    variables: {
-      name,
-      ...form,
+    variables: form,
+    update: (store, { data: { createRecipe } }) => {
+      if (!createRecipe.success) throw createRecipe.errors
+
+      // Read the data from our cache for this query.
+      const data = store.readQuery({ query: allRecipesQuery })
+      // add an empty array if ther are no recipes
+      if (!data.recipes) data.recipes = { nodes: [] }
+      data.recipes.nodes.push(createRecipe.recipe)
+
+      // Write our data back to the cache.
+      store.writeQuery({ query: allRecipesQuery, data })
     },
   })
 }

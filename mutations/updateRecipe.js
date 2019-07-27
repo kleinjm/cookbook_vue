@@ -1,32 +1,26 @@
 import gql from 'graphql-tag'
-import { AllFieldsFragment } from '~queries/recipes.js'
+import { AllFieldsFragment } from '~/queries/recipes'
 
 const mutation = gql`
   mutation updateRecipe(
     $id: ID!
     $name: String
-    $categoryIds: [ID!]
-    $cookTimeQuantity: String
-    $cookTimeUnit: String
     $ingredients: String
     $link: String
-    $notes: String
+    $description: String
     $source: String
-    $stepText: String
+    $steps: String
     $tagIds: [ID!]
   ) {
     updateRecipe(
       input: {
         recipeId: $id
         name: $name
-        categoryIds: $categoryIds
-        cookTimeQuantity: $cookTimeQuantity
-        cookTimeUnit: $cookTimeUnit
         ingredients: $ingredients
         link: $link
-        notes: $notes
+        description: $description
         source: $source
-        stepText: $stepText
+        steps: $steps
         tagIds: $tagIds
       }
     ) {
@@ -40,34 +34,9 @@ const mutation = gql`
   ${AllFieldsFragment}
 `
 
-export default function updateRecipe({
-  apollo,
-  id,
-  name,
-  categoryIds,
-  cookTimeQuantity,
-  cookTimeUnit,
-  ingredients,
-  link,
-  notes,
-  source,
-  stepText,
-  tagIds,
-}) {
+export default function updateRecipe({ apollo, form }) {
   return apollo.mutate({
     mutation,
-    variables: {
-      id,
-      name,
-      categoryIds,
-      cookTimeQuantity,
-      cookTimeUnit,
-      ingredients,
-      link,
-      notes,
-      source,
-      stepText,
-      tagIds,
-    },
+    variables: form,
   })
 }

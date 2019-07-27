@@ -17,12 +17,14 @@ module.exports = {
     'prettier/vue',
   ],
   plugins: [
-    'prettier'
+    'prettier',
+    'vue'
   ],
   // add your custom rules here
   rules: {
     'prettier/prettier': 'error',
     'no-console': 'warn',
     'no-unused-vars': 'warn',
+    'vue/attribute-hyphenation': 0,
   },
 }
