@@ -13,6 +13,10 @@ export function fieldErrors(fieldName, vueObj) {
     !field.required && errors.push('This field is required')
   }
 
+  if ('url' in field) {
+    !field.url && errors.push('Must be a valid url')
+  }
+
   if ('minLength' in field) {
     const length = field.$params.minLength.min
     !field.minLength &&

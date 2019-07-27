@@ -6,12 +6,32 @@
         <v-card-text>
           <v-form @submit.prevent="submitForm">
             <v-text-field
+              v-model="form.link"
+              label="link"
+              :error-messages="linkErrors"
+              required
+              @input="$v.form.link.$touch()"
+              @blur="$v.form.link.$touch()"
+            />
+            <v-text-field
               v-model="form.name"
               label="Name"
               :error-messages="nameErrors"
               required
               @input="$v.form.name.$touch()"
               @blur="$v.form.name.$touch()"
+            />
+            <v-text-field v-model="form.source" label="source" required />
+            <v-textarea
+              v-model="form.ingredients"
+              label="ingredients"
+              required
+            />
+            <v-textarea v-model="form.steps" label="steps" required />
+            <v-textarea
+              v-model="form.description"
+              label="description"
+              required
             />
           </v-form>
           <v-card-actions>
@@ -32,7 +52,7 @@
 
 <script>
 import _isEmpty from 'lodash/isEmpty'
-import { required } from 'vuelidate/lib/validators'
+import { required, url } from 'vuelidate/lib/validators'
 import { extractUuid } from '~/utils/apollo'
 import createRecipe from '~/mutations/createRecipe'
 import { fieldErrors } from '~/utils/vuelidate'
@@ -42,15 +62,19 @@ export default {
     return {
       errors: [],
       loading: false,
-      form: {
-        name: '',
-      },
+      form: {},
     }
   },
   validations: {
-    form: { name: { required } },
+    form: {
+      name: { required },
+      link: { url },
+    },
   },
   computed: {
+    linkErrors() {
+      return fieldErrors('form.link', this)
+    },
     nameErrors() {
       return fieldErrors('form.name', this)
     },
