@@ -1,51 +1,14 @@
 <template>
   <v-app :dark="isDarkTheme">
-    <v-navigation-drawer
-      v-if="$auth.$state.loggedIn"
-      v-model="drawer"
-      fixed
-      right
-    >
-      <v-alert type="error" :value="error">{{ error }}</v-alert>
-
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title class="title">
-            {{ fullName }}
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            <v-icon>mdi-account</v-icon>
-            Account
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider></v-divider>
-
-      <v-list dense nav>
-        <v-list-item @click="toggleDarkTheme">
-          <v-list-item-icon>
-            <v-icon>mdi-view-dashboard</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ themeNameDisplay }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item @click="logout">
-          <v-list-item-icon>
-            <v-icon>mdi-logout</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Sign out</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
+    <NavigationDrawer
+      :drawer="drawer"
+      @logout="logout"
+      @drawerToggled="drawerToggled"
+    />
     <Navbar @toggle-drawer="drawer = !drawer" />
-
     <v-content>
       <v-container grid-list-md>
+        <v-alert type="error" :value="errors">{{ errors }}</v-alert>
         <v-alert
           v-model="displayGlobalAlert"
           dismissible
@@ -73,15 +36,16 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import Navbar from '~/components/Navbar'
+import Navbar from '~/components/layouts/Navbar'
+import NavigationDrawer from '~/components/layouts/NavigationDrawer'
 
 export default {
-  components: { Navbar },
+  components: { Navbar, NavigationDrawer },
   data() {
     return {
       drawer: false,
       right: true,
-      error: null,
+      errors: null,
       displayGlobalAlert: false,
       links: ['Home', 'About Us', 'Team', 'Services', 'Blog', 'Contact Us'],
     }
@@ -94,15 +58,6 @@ export default {
     },
     alertType() {
       return this.globalAlert.type || 'success'
-    },
-    fullName() {
-      const user = this.$auth.$state.user
-      if (!user) return
-
-      return `${user.first_name} ${user.last_name}`
-    },
-    themeNameDisplay() {
-      return this.isDarkTheme ? 'Light Theme' : 'Dark Theme'
     },
   },
   watch: {
@@ -117,18 +72,16 @@ export default {
     this.displayGlobalAlert = this.globalAlertPopulated
   },
   methods: {
-    ...mapActions(['clearGlobalAlert', 'toggleDarkTheme']),
-    async logout() {
-      this.drawer = false
-      await this.$auth
-        .logout()
-        .then(() => {
-          this.$router.push('/login')
-        })
-        .catch((e) => {
-          this.error = e + ''
-        })
-      await this.$apolloHelpers.onLogout()
+    ...mapActions(['clearGlobalAlert']),
+    drawerToggled(open) {
+      this.drawer = open
+    },
+    logout({ success, errors }) {
+      if (success) {
+        this.drawer = false
+      } else {
+        this.errors = errors
+      }
     },
   },
 }
