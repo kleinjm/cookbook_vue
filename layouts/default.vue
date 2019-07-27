@@ -45,7 +45,7 @@
     <Navbar @toggle-drawer="drawer = !drawer" />
 
     <v-content>
-      <v-container>
+      <v-container grid-list-md>
         <v-alert
           v-model="displayGlobalAlert"
           dismissible

@@ -4,3 +4,9 @@
 .page-enter, .page-leave-to {
   opacity: 0;
 }
+.no-underline {
+  text-decoration: none;
+}
+.center-text {
+  text-align: center;
+}
