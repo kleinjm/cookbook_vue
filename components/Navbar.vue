@@ -1,12 +1,12 @@
 <template>
-  <v-app-bar fixed app color="primary">
-    <router-link to="/recipes" class="white--text">
-      <v-toolbar-title>
+  <v-app-bar fixed app color="primary" elevate-on-scroll>
+    <v-toolbar-title>
+      <nuxt-link to="/recipes" class="white--text">
         Cookbook
-      </v-toolbar-title>
-    </router-link>
+      </nuxt-link>
+    </v-toolbar-title>
     <v-spacer />
-    <v-toolbar-items class="hidden-xs-only">
+    <v-toolbar-items class="hidden-sm-and-down">
       <v-btn text class="white--text">
         <v-badge color="info" left>
           <template v-slot:badge>
@@ -15,6 +15,7 @@
           Up Next
         </v-badge>
       </v-btn>
+
       <template v-if="$auth.$state.loggedIn">
         <v-btn text icon @click="$emit('toggle-drawer')">
           <v-icon class="white--text">
@@ -31,5 +32,17 @@
         </v-btn>
       </template>
     </v-toolbar-items>
+
+    <v-menu class="hidden-md-and-up" offset-y>
+      <template v-slot:activator="{ on }">
+        <v-app-bar-nav-icon class="white--text hidden-md-and-up" v-on="on">
+        </v-app-bar-nav-icon>
+      </template>
+      <v-list>
+        <v-list-item>
+          <v-list-item-title>Up Next</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-app-bar>
 </template>

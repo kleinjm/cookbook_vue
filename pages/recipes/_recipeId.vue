@@ -1,9 +1,11 @@
 <template>
-  <v-layout>
-    <v-flex>
-      <p>{{ recipe.name }}</p>
-    </v-flex>
-  </v-layout>
+  <v-container>
+    <v-layout>
+      <v-flex>
+        <h3 class="display-2">{{ recipe.name }}</h3>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
