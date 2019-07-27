@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 import _findIndex from 'lodash/findIndex'
+import _isEmpty from 'lodash/isEmpty'
 import { allRecipesQuery } from '~/queries/recipes'
 
 const mutation = gql`
@@ -23,6 +24,7 @@ export default function({ apollo, recipeId }) {
 
       // Read the data from our cache for this query.
       const data = store.readQuery({ query: allRecipesQuery })
+      if (_isEmpty(data.recipes)) return // do nothing if there are no recipes
 
       // TL;DR need to use .splice to update the apollo cache so views are
       //   responsive

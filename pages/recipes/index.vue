@@ -87,6 +87,7 @@ export default {
     },
     deleteRecipe(recipe) {
       if (!confirm('Are you sure you want to delete this recipe?')) return
+
       deleteRecipe({ apollo: this.$apollo, recipeId: recipe.id }).catch(
         (errors) => {
           this.errors = errors
