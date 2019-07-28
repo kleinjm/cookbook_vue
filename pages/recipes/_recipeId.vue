@@ -44,28 +44,31 @@
       <p class="font-weight-medium">{{ recipe.description }}</p>
     </v-flex>
 
-    <v-flex xs6>
+    <v-flex xs5>
       <v-list>
-        <v-subheader>Ingredients</v-subheader>
+        <v-subheader class="headline font-weight-medium"
+          >Ingredients</v-subheader
+        >
         <v-list-item-group v-model="selectedIngredient" color="primary">
-          <v-list-item v-for="ingredient in ingredients" :key="ingredient.id">
-            <v-list-item-content>
-              <v-list-item-title
-                v-text="ingredientText(ingredient)"
-              ></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+          <template v-for="ingredient in ingredients">
+            <v-list-item :key="ingredient.id">
+              <v-list-item-content>
+                {{ ingredientText(ingredient) }}
+              </v-list-item-content>
+            </v-list-item>
+            <v-divider :key="ingredient.id" />
+          </template>
         </v-list-item-group>
       </v-list>
     </v-flex>
 
-    <v-flex xs6>
+    <v-flex xs7>
       <v-list>
-        <v-subheader>Steps</v-subheader>
+        <v-subheader class="headline font-weight-medium">Steps</v-subheader>
         <v-list-item-group v-model="selectedStep" color="primary">
           <v-list-item v-for="(step, index) in recipe.stepList" :key="index">
             <v-list-item-content>
-              <v-list-item-title>{{ index + 1 }} {{ step }}</v-list-item-title>
+              {{ index + 1 }} {{ step }}
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>

@@ -54,8 +54,8 @@ export default {
     },
     formData: {
       type: Object,
-      required: false,
-      default: () => {},
+      // {} must be surrounded by ()
+      default: () => ({}),
     },
   },
   data: function() {
