@@ -3,7 +3,13 @@
     Loading
   </v-layout>
   <v-layout v-else wrap>
-    <v-flex xs11>
+    <v-flex xs12>
+      <v-alert type="error" :value="errors">{{ errors }}</v-alert>
+    </v-flex>
+    <v-flex xs1>
+      <UpNextButton :recipe="recipe" @errors="handleErrors" />
+    </v-flex>
+    <v-flex xs10>
       <div class="center-text">
         <h3 class="display-2">
           {{ recipe.name }}
@@ -72,12 +78,13 @@
 import _get from 'lodash/get'
 import { recipeShowQuery } from '~/queries/recipes'
 import RecipeActionMenu from '~/components/recipes/recipe-action-menu'
+import UpNextButton from '~/components/recipes/up-next-button'
 import { ingredientText } from '~/utils/recipe'
 
 const DATE_FORMAT = { year: 'numeric', month: 'long', day: 'numeric' }
 
 export default {
-  components: { RecipeActionMenu },
+  components: { RecipeActionMenu, UpNextButton },
   filters: {
     formattedDate(value) {
       return new Date(value).toLocaleDateString(undefined, DATE_FORMAT)
@@ -88,6 +95,7 @@ export default {
       recipe: {},
       selectedIngredient: undefined,
       selectedStep: undefined,
+      errors: null,
     }
   },
   computed: {
