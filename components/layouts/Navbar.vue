@@ -9,8 +9,8 @@
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn text class="white--text">
         <v-badge color="info" left>
-          <template v-slot:badge>
-            <span>4</span>
+          <template v-if="upNextCount" v-slot:badge>
+            <span>{{ upNextCount }}</span>
           </template>
           Up Next
         </v-badge>
@@ -46,3 +46,19 @@
     </v-menu>
   </v-app-bar>
 </template>
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'Navbar',
+  computed: {
+    ...mapGetters(['up-next/upNextRecipes']),
+    upNextCount() {
+      return this['up-next/upNextRecipes'].length
+    },
+  },
+  beforeMount() {
+    this.$store.dispatch('up-next/fetchUpNextRecipes', this.$apollo)
+  },
+}
+</script>

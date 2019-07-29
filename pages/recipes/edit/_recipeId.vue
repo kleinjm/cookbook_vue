@@ -55,7 +55,10 @@ export default {
           this.$router.push({ path: `/recipes/${this.recipe.uuid}` })
         })
         .catch((e) => {
-          this.errors = e
+          this.errors = e.join('\n')
+        })
+        .finally(() => {
+          this.loading = false
         })
     },
   },

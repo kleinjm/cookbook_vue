@@ -12,6 +12,8 @@
 </template>
 <script>
 import _get from 'lodash/get'
+import _filter from 'lodash/filter'
+import { mapActions } from 'vuex'
 import updateUpNext from '~/mutations/updateUpNext'
 
 export default {
@@ -36,6 +38,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['up-next/addUpNextRecipe', 'up-next/removeUpNextRecipe']),
     toggleUpNext() {
       this.loading = true
       const upNext = this.upNext === 0 ? 1 : 0
@@ -45,6 +48,13 @@ export default {
         recipeIds: [this.recipe.id],
         upNext,
       })
+        .then((recipes) => {
+          if (upNext) {
+            this['up-next/addUpNextRecipe'](recipes[0])
+          } else {
+            this['up-next/removeUpNextRecipe'](recipes[0])
+          }
+        })
         .catch((errors) => {
           this.$emit('errors', errors)
         })

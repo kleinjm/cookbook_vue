@@ -1,10 +1,18 @@
 import _map from 'lodash/map'
 import _filter from 'lodash/filter'
 import _includes from 'lodash/includes'
-import { fetchUpNextRecipes } from '~/queries/recipes'
+import { upNextRecipesQuery } from '~/queries/recipes'
 
-export const state = {
-  upNextRecipes: [],
+const fetchUpNextRecipes = ({ apollo }) => {
+  return apollo
+    .query({
+      query: upNextRecipesQuery,
+    })
+    .then((response) => response.data.recipes.nodes)
+}
+
+export const state = () => {
+  return { upNextRecipes: [] }
 }
 
 export const getters = {

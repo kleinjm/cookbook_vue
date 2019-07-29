@@ -14,6 +14,7 @@
         <h3 class="display-2">
           {{ recipe.name }}
           <a
+            v-if="recipe.link"
             class="no-underline"
             :href="recipe.link"
             rel="nofollow"
@@ -37,9 +38,7 @@
     <v-flex xs12>
       <hr />
       <p class="subtitle-1">
-        {{ recipe.source }}
-        |
-        {{ recipe.createdAt | formattedDate }}
+        {{ subtitle }}
       </p>
       <p class="font-weight-medium">{{ recipe.description }}</p>
     </v-flex>
@@ -51,12 +50,14 @@
         >
         <v-list-item-group v-model="selectedIngredient" color="primary">
           <template v-for="ingredient in ingredients">
-            <v-list-item :key="ingredient.id">
-              <v-list-item-content>
-                {{ ingredientText(ingredient) }}
-              </v-list-item-content>
-            </v-list-item>
-            <v-divider :key="ingredient.id" />
+            <div :key="ingredient.id">
+              <v-list-item>
+                <v-list-item-content>
+                  {{ ingredientText(ingredient) }}
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider />
+            </div>
           </template>
         </v-list-item-group>
       </v-list>
@@ -88,11 +89,6 @@ const DATE_FORMAT = { year: 'numeric', month: 'long', day: 'numeric' }
 
 export default {
   components: { RecipeActionMenu, UpNextButton },
-  filters: {
-    formattedDate(value) {
-      return new Date(value).toLocaleDateString(undefined, DATE_FORMAT)
-    },
-  },
   data() {
     return {
       recipe: {},
@@ -105,8 +101,18 @@ export default {
     ingredients() {
       return _get(this.recipe, 'ingredients.nodes', [])
     },
+    subtitle() {
+      const formattedDate = this.formattedDate(this.recipe.createdAt)
+      if (this.recipe.source !== '' && this.recipe.source !== null) {
+        return [this.recipe.source, formattedDate].join(' | ')
+      }
+      return formattedDate
+    },
   },
   methods: {
+    formattedDate(value) {
+      return new Date(value).toLocaleDateString(undefined, DATE_FORMAT)
+    },
     ingredientText(ingredient) {
       return ingredientText(ingredient)
     },
