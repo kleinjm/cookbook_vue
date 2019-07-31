@@ -49,7 +49,7 @@
         solo
         flat
         rounded
-        class="times-cooked"
+        class="times-cooked center-text"
         @click:prepend-inner="changeCookedAt(-1)"
         @click:append="changeCookedAt(1)"
       ></v-text-field>

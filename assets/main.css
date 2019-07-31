@@ -13,6 +13,10 @@
 .selected-row {
   background-color: #E6F0FA;
 }
+
 .times-cooked {
-  width: 13%;
+  width: 130px;
+}
+.times-cooked input {
+  text-align: center;
 }
