@@ -65,6 +65,7 @@ const upNextRecipesQuery = gql`
     recipes(upNext: true) {
       nodes {
         id
+        uuid
         name
         timesCooked
         upNext

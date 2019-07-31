@@ -7,12 +7,12 @@
     :color="color"
     @click="toggleUpNext"
   >
-    <v-icon>mdi-page-next-outline</v-icon>
+    <v-icon v-if="upNext">mdi-playlist-remove</v-icon>
+    <v-icon v-else>mdi-playlist-plus</v-icon>
   </v-btn>
 </template>
 <script>
 import _get from 'lodash/get'
-import _filter from 'lodash/filter'
 import { mapActions } from 'vuex'
 import updateUpNext from '~/mutations/updateUpNext'
 

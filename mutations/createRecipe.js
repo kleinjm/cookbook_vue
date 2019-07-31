@@ -1,3 +1,5 @@
+import _isEmpty from 'lodash/isEmpty'
+import _isNil from 'lodash/isNil'
 import gql from 'graphql-tag'
 import { AllFieldsFragment, allRecipesQuery } from '~/queries/recipes'
 
@@ -42,7 +44,9 @@ export default function createRecipe({ apollo, form }) {
       // Read the data from our cache for this query.
       const data = store.readQuery({ query: allRecipesQuery })
       // add an empty array if ther are no recipes
-      if (!data.recipes) data.recipes = { nodes: [] }
+      if (_isNil(data.recipes) || _isEmpty(data.recipes)) {
+        data.recipes = { nodes: [] }
+      }
       data.recipes.nodes.push(createRecipe.recipe)
 
       // Write our data back to the cache.

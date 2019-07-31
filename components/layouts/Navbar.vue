@@ -7,7 +7,7 @@
     </v-toolbar-title>
     <v-spacer />
     <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn text class="white--text">
+      <v-btn text class="white--text" nuxt exact to="/up-next">
         <v-badge color="info" left>
           <template v-if="upNextCount" v-slot:badge>
             <span>{{ upNextCount }}</span>
@@ -39,8 +39,10 @@
         </v-app-bar-nav-icon>
       </template>
       <v-list>
-        <v-list-item>
-          <v-list-item-title>Up Next</v-list-item-title>
+        <v-list-item to="up-next">
+          <v-list-item-title>
+            Up Next
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>

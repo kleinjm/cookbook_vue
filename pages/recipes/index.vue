@@ -28,17 +28,32 @@
           :headers="headers"
           :items="recipes"
           :search="search"
+          :loading="$apollo.loading"
+          loading-text="Recipes loading ... Please wait"
         >
-          <template v-slot:item.name="{ item }">
-            <nuxt-link :to="recipeRoute(item.uuid)">{{ item.name }}</nuxt-link>
-          </template>
-          <template v-slot:item.action="{ item }">
-            <v-icon small class="mr-2" @click="editRecipe(item)">
-              edit
-            </v-icon>
-            <v-icon small @click="deleteRecipe(item)">
-              delete
-            </v-icon>
+          <template v-slot:item="{ item, select, isSelected }">
+            <tr :class="rowClass(item)">
+              <td class="text-start">
+                <div @click="select(!isSelected)">
+                  <v-icon v-if="isSelected">mdi-checkbox-marked</v-icon>
+                  <v-icon v-else>mdi-checkbox-blank-outline</v-icon>
+                </div>
+              </td>
+              <td class="text-left">
+                <nuxt-link :to="recipeRoute(item.uuid)" class="no-underline">{{
+                  item.name | truncate(70)
+                }}</nuxt-link>
+              </td>
+              <td class="text-start">{{ item.timesCooked }}</td>
+              <td class="text-start">
+                <v-icon small class="mr-2" @click="editRecipe(item)">
+                  edit
+                </v-icon>
+                <v-icon small @click="deleteRecipe(item)">
+                  delete
+                </v-icon>
+              </td>
+            </tr>
           </template>
         </v-data-table>
       </no-ssr>
@@ -52,6 +67,13 @@ import { allRecipesQuery } from '~/queries/recipes'
 import deleteRecipe from '~/mutations/deleteRecipe'
 
 export default {
+  filters: {
+    truncate(text, length) {
+      if (text.length <= length) return text
+      const truncated = text.substring(0, length - 3)
+      return `${truncated}...`
+    },
+  },
   data() {
     return {
       headers: [
@@ -61,7 +83,6 @@ export default {
           value: 'name',
         },
         { text: 'Times Cooked', value: 'timesCooked' },
-        { text: 'Up Next', value: 'upNext' },
         { text: 'Actions', value: 'action', sortable: false },
       ],
       recipes: [],
@@ -93,6 +114,9 @@ export default {
           this.errors = errors
         },
       )
+    },
+    rowClass({ upNext }) {
+      return upNext ? 'selected-row' : ''
     },
   },
   apollo: {

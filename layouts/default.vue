@@ -20,17 +20,7 @@
         <nuxt />
       </v-container>
     </v-content>
-
-    <v-footer app height="auto" color="primary lighten-1">
-      <v-layout justify-center row wrap>
-        <v-btn v-for="link in links" :key="link" color="white" text rounded>
-          {{ link }}
-        </v-btn>
-        <v-flex primary lighten-2 py-3 text-xs-center white--text xs12>
-          &copy;2019 — <strong>Cookbook</strong>
-        </v-flex>
-      </v-layout>
-    </v-footer>
+    <Footer />
   </v-app>
 </template>
 
@@ -38,9 +28,10 @@
 import { mapActions, mapGetters } from 'vuex'
 import Navbar from '~/components/layouts/Navbar'
 import NavigationDrawer from '~/components/layouts/NavigationDrawer'
+import Footer from '~/components/layouts/Footer'
 
 export default {
-  components: { Navbar, NavigationDrawer },
+  components: { Navbar, NavigationDrawer, Footer },
   data() {
     return {
       drawer: false,

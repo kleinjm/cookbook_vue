@@ -43,7 +43,7 @@
       <p class="font-weight-medium">{{ recipe.description }}</p>
     </v-flex>
 
-    <v-flex xs5>
+    <v-flex sm5>
       <v-list>
         <v-subheader class="headline font-weight-medium"
           >Ingredients</v-subheader
@@ -63,7 +63,7 @@
       </v-list>
     </v-flex>
 
-    <v-flex xs7>
+    <v-flex sm7>
       <v-list>
         <v-subheader class="headline font-weight-medium">Steps</v-subheader>
         <v-list-item-group v-model="selectedStep" color="primary">
