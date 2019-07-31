@@ -22,9 +22,7 @@ const AllFieldsFragment = gql`
       }
     }
     upNext
-    timesCooked
     source
-    lastCooked
     createdAt
     updatedAt
     description
@@ -47,14 +45,12 @@ const allRecipesQuery = gql`
         id
         uuid
         name
-        timesCooked
         upNext
         tags {
           nodes {
             id
           }
         }
-        lastCooked
       }
     }
   }
@@ -67,7 +63,6 @@ const upNextRecipesQuery = gql`
         id
         uuid
         name
-        timesCooked
         upNext
       }
     }
@@ -80,9 +75,7 @@ const ingredientSearchQuery = gql`
       nodes {
         id
         name
-        timesCooked
         upNext
-        lastCooked
       }
     }
   }

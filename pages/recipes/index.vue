@@ -44,7 +44,6 @@
                   item.name | truncate(70)
                 }}</nuxt-link>
               </td>
-              <td class="text-start">{{ item.timesCooked }}</td>
               <td class="text-start">
                 <v-icon small class="mr-2" @click="editRecipe(item)">
                   edit
@@ -82,7 +81,6 @@ export default {
           align: 'left',
           value: 'name',
         },
-        { text: 'Times Cooked', value: 'timesCooked' },
         { text: 'Actions', value: 'action', sortable: false },
       ],
       recipes: [],

@@ -14,7 +14,6 @@ const mutation = gql`
         id
         uuid
         name
-        timesCooked
         upNext
       }
     }
