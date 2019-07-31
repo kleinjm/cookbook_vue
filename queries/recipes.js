@@ -26,6 +26,8 @@ const AllFieldsFragment = gql`
     createdAt
     updatedAt
     description
+    timesCooked
+    lastCookedAt
   }
 `
 

@@ -41,6 +41,19 @@
         {{ subtitle }}
       </p>
       <p class="font-weight-medium">{{ recipe.description }}</p>
+      <v-text-field
+        v-model="recipe.timesCooked"
+        prepend-inner-icon="mdi-minus-circle-outline"
+        append-icon="mdi-plus-circle-outline"
+        readonly
+        solo
+        flat
+        rounded
+        class="times-cooked"
+        @click:prepend-inner="changeCookedAt(-1)"
+        @click:append="changeCookedAt(1)"
+      ></v-text-field>
+      <p>Last Cooked {{ formattedDate(recipe.lastCookedAt) }}</p>
     </v-flex>
 
     <v-flex sm5>
@@ -84,8 +97,14 @@ import { recipeShowQuery } from '~/queries/recipes'
 import RecipeActionMenu from '~/components/recipes/recipe-action-menu'
 import UpNextButton from '~/components/recipes/up-next-button'
 import { ingredientText } from '~/utils/recipe'
+import updateCookedAtDates from '~/mutations/updateCookedAtDates'
 
-const DATE_FORMAT = { year: 'numeric', month: 'long', day: 'numeric' }
+const DATE_FORMAT = {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+}
 
 export default {
   components: { RecipeActionMenu, UpNextButton },
@@ -111,13 +130,20 @@ export default {
   },
   methods: {
     formattedDate(value) {
-      return new Date(value).toLocaleDateString(undefined, DATE_FORMAT)
+      return new Date(value).toLocaleDateString('en-US', DATE_FORMAT)
     },
     ingredientText(ingredient) {
       return ingredientText(ingredient)
     },
     handleErrors(errors) {
       this.errors = errors
+    },
+    changeCookedAt(amount) {
+      updateCookedAtDates({
+        apollo: this.$apollo,
+        recipeUuid: this.recipe.uuid,
+        amount,
+      })
     },
   },
   apollo: {
