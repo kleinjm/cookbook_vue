@@ -1,5 +1,5 @@
 <template>
-  <v-app :dark="isDarkTheme">
+  <v-app>
     <NavigationDrawer
       :drawer="drawer"
       @logout="logout"
@@ -57,6 +57,9 @@ export default {
     },
     globalAlertPopulated(displayed) {
       if (displayed) this.displayGlobalAlert = true
+    },
+    isDarkTheme(isDark) {
+      this.$vuetify.theme.dark = isDark
     },
   },
   created() {

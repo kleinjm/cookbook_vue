@@ -53,7 +53,7 @@
         @click:prepend-inner="changeCookedAt(-1)"
         @click:append="changeCookedAt(1)"
       ></v-text-field>
-      <p>Last Cooked {{ formattedDate(recipe.lastCookedAt) }}</p>
+      <p>{{ lastCookedText }}</p>
     </v-flex>
 
     <v-flex sm5>
@@ -127,9 +127,15 @@ export default {
       }
       return formattedDate
     },
+    lastCookedText() {
+      if (this.recipe.lastCookedAt === null) return
+
+      return `Last Cooked ${this.formattedDate(this.recipe.lastCookedAt)}`
+    },
   },
   methods: {
     formattedDate(value) {
+      if (value === null) return
       return new Date(value).toLocaleDateString('en-US', DATE_FORMAT)
     },
     ingredientText(ingredient) {

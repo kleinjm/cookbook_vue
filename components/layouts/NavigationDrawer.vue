@@ -4,6 +4,7 @@
     :value="drawer"
     fixed
     right
+    temporary
     @input="drawerToggled"
   >
     <v-list-item>

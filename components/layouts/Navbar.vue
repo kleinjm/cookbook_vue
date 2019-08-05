@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar fixed app color="primary" elevate-on-scroll>
+  <v-app-bar fixed app :color="backgroundColor" elevate-on-scroll>
     <v-toolbar-title>
       <nuxt-link to="/recipes" class="white--text no-underline">
         Cookbook
@@ -57,6 +57,9 @@ export default {
     ...mapGetters(['up-next/upNextRecipes']),
     upNextCount() {
       return this['up-next/upNextRecipes'].length
+    },
+    backgroundColor() {
+      return this.$vuetify.theme.dark ? '' : 'primary'
     },
   },
   beforeMount() {

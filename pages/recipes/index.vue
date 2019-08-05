@@ -40,9 +40,11 @@
                 </div>
               </td>
               <td class="text-left">
-                <nuxt-link :to="recipeRoute(item.uuid)" class="no-underline">{{
-                  item.name | truncate(70)
-                }}</nuxt-link>
+                <nuxt-link
+                  :to="recipeRoute(item.uuid)"
+                  class="no-underline text--white"
+                  >{{ item.name | truncate(70) }}</nuxt-link
+                >
               </td>
               <td class="text-start">
                 <v-icon small class="mr-2" @click="editRecipe(item)">
@@ -114,7 +116,14 @@ export default {
       )
     },
     rowClass({ upNext }) {
-      return upNext ? 'selected-row' : ''
+      let selectedColor = ''
+      if (this.$vuetify.theme.dark) {
+        selectedColor = 'grey darken-2'
+      } else {
+        selectedColor = 'light-blue lighten-5'
+      }
+
+      return upNext ? selectedColor : ''
     },
   },
   apollo: {
